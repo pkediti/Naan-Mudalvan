@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Song Recommender</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-image: url('{{ url_for("static", filename="image.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+            animation: backgroundFadeIn 2s ease-in-out;
+        }
+
+        @keyframes backgroundFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: -1;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding-top: 60px;
+            background: rgba(0, 0, 0, 0.6);
+            width: 100%;
+            z-index: 1;
+        }
+
+        .header {
+            position: absolute;
+            top: 40px;
+            text-align: center;
+            animation: fadeIn 3s ease-in-out infinite alternate; 
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            color: #fff;
+            text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0.6;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 60px; 
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1); 
+            border-radius: 20px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            animation: slideUpFadeIn 1s ease-out;
+        }
+
+        @keyframes slideUpFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form input[type="text"] {
+            padding: 15px;
+            font-size: 1.2rem;
+            border: 2px solid #1db954;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1); 
+            color: black;
+            width: 100%;
+            margin-bottom: 20px;
+            outline: none;
+            transition: background 0.3s, border-color 0.3s;
+        }
+
+        .form input[type="text"]:focus {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #1ed760;
+        }
+
+        .form button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(135deg, #1db954, #14833b);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.4); 
+            width: 100%;
+        }
+
+        .form button:hover {
+            transform: translateY(-3px); 
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.5); 
+        }
+
+        .error-message {
+            color: #ff4d4d;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .form input[type="text"], .form button {
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .form input[type="text"], .form button {
+                max-width: 250px;
+                padding: 12px 15px;
+                font-size: 1rem;
+            }
+
+            .form button {
+                padding: 12px 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body, html {
+                background-size: cover;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body, html {
+                background-position: center center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Welcome to the Spotify Song Recommender</h1>
+        </header>
+        <form method="POST" class="form">
+            <input type="text" id="song_name" name="song_name" placeholder="Enter your favourite song" required>
+            <button type="submit">Get Recommendations</button>
+        </form>
+        {% if error_message %}
+            <p class="error-message">{{ error_message }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
